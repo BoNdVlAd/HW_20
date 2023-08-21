@@ -17,6 +17,9 @@ const Button = styled.button`
   &:active {
     transform: translateY(1px);
   }
+  &.disabled {
+    background-color: grey;
+  }
 `;
 
 const SubmitButton = (props) => {

@@ -5,51 +5,36 @@ import Icon from '../../components/Icon';
 import Input from '../../components/Input';
 import SubmitButton from '../../components/SubmitButton';
 import Window from '../../components/Window';
-import Checkbox from './../../components/Checkbox';
+import Flex from './../../components/Flex';
 
 const Login = () => {
+  const saveRef = React.useRef();
   const [email, setEmail] = React.useState('');
   const [emailIsValid, setEmailIsValid] = React.useState(null);
 
   const [password, setPassword] = React.useState('');
   const [passwordIsValid, setPasswordIsValid] = React.useState(null);
 
-  console.log(emailIsValid);
-
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(/^(\w{3,})+@\w+(\w{1,})+.\w+(\w{1,})+$/);
-  };
-  const validatePassword = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(/^(\w[A-Za-z]{8,})+$/);
-  };
-
   const handleInputEmail = (value) => {
-    console.log('VALID : ', validateEmail(value));
     setEmail(value);
-    if (validateEmail(value)) {
-      setEmailIsValid(true);
-    } else if (value.length === 0) {
-      setEmailIsValid(null);
-    } else {
-      setEmailIsValid(false);
-    }
   };
 
   const handleInputPassword = (value) => {
-    console.log('VALID : ', validatePassword(value));
     setPassword(value);
-    if (validatePassword(value)) {
-      setPasswordIsValid(true);
-    } else if (value.length === 0) {
-      setPasswordIsValid(null);
-    } else {
-      setPasswordIsValid(false);
+  };
+
+  const handleLogin = () => {
+    if (saveRef.current.checked) {
+      localStorage.setItem('savedData', [email, password]);
     }
   };
+
+  React.useEffect(() => {
+    if (localStorage.getItem('savedData')) {
+      setEmail(localStorage.getItem('savedData').split(',')[0]);
+      setPassword(localStorage.getItem('savedData').split(',')[1]);
+    }
+  }, []);
 
   return (
     <Window>
@@ -62,15 +47,23 @@ const Login = () => {
         placeholder="Email Address *"
         color={emailIsValid === null ? '' : emailIsValid ? 'green' : 'red'}></Input>
       <Input
-        type="password"
+        type="text"
         value={password}
         onChange={(e) => handleInputPassword(e.target.value)}
         placeholder="Password * "
         color={passwordIsValid === null ? '' : passwordIsValid ? 'green' : 'red'}></Input>
-      <Checkbox>Remember me</Checkbox>
-      <SubmitButton>SIGN IN</SubmitButton>
+      <Flex>
+        <input ref={saveRef} type="checkbox"></input>
+        Remember me
+      </Flex>
+      <SubmitButton
+        className={email.length && password.length ? '' : 'disabled'}
+        onClick={handleLogin}>
+        SIGN IN
+      </SubmitButton>
     </Window>
   );
 };
 
 export default Login;
+// .match(/^(\w{3,})@\w(\w{1,})\.\w(\w{1,})$/);

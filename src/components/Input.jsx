@@ -12,9 +12,9 @@ const InputField = styled.input`
   border-radius: 4px;
   &:focus {
     outline: none;
+    border-color: ${(props) => props.color || '#dfe1e6'};
   }
   &:active {
-    border-color: #dfe1e6;
   }
 `;
 

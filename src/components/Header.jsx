@@ -25,6 +25,15 @@ const Wrapper = styled.div`
 
 const Header = () => {
   const [active, setActive] = React.useState('login');
+
+  React.useEffect(() => {
+    const path = window.location.pathname.split('/')[2];
+    if (!path) {
+      return;
+    }
+    setActive(path);
+  }, []);
+
   return (
     <>
       <Wrapper>

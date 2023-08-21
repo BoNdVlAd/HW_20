@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 `;
 
 const Window = (props) => {
-  console.log('RENDER');
   const windowRef = React.useRef();
 
   React.useLayoutEffect(() => {
